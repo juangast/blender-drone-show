@@ -38,3 +38,22 @@ for i, name in enumerate(drone_names):
     drone.keyframe_insert(data_path="location", frame=120)
 
 print("Circle formation created!")
+
+
+# V  formation
+v_positions = [
+    (-4, 0, 7),
+    (-2, 0, 6),
+    (0, 0, 5),
+    (2, 0, 6),
+    (4, 0, 7)
+]
+
+for i, name in enumerate(drone_names):
+    drone = bpy.data.objects[name]
+
+    bpy.context.scene.frame_set(270)
+    drone.location = v_positions[i]
+    drone.keyframe_insert(data_path="location", frame=270)
+
+print("V formation created!")
