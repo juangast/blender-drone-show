@@ -41,19 +41,58 @@ print("Circle formation created!")
 
 
 # V  formation
-v_positions = [
-    (-4, 0, 7),
-    (-2, 0, 6),
+expanded_positions = [
+    (-6, 0, 8),
+    (-3, 0, 6.5),
     (0, 0, 5),
-    (2, 0, 6),
-    (4, 0, 7)
+    (3, 0, 6.5),
+    (6, 0, 8)
 ]
 
 for i, name in enumerate(drone_names):
     drone = bpy.data.objects[name]
 
-    bpy.context.scene.frame_set(270)
-    drone.location = v_positions[i]
-    drone.keyframe_insert(data_path="location", frame=270)
+    bpy.context.scene.frame_set(330)
+    drone.location = expanded_positions[i]
+    drone.keyframe_insert(data_path="location", frame=330)
 
-print("V formation created!")
+print("V formation expanded!")
+
+
+#color change
+drone = bpy.data.objects["Drone_01"]
+material = drone.active_material
+
+principled = material.node_tree.nodes.get("Principled BSDF")
+emission = principled.inputs["Emission Color"]
+
+# frame 330 - Blue
+bpy.context.scene.frame_set(330)
+emission.default_value = (0.0, 0.3, 1.0, 1.0)
+emission.keyframe_insert(data_path="default_value", frame=330)
+
+# frame 370 - Purple
+bpy.context.scene.frame_set(370)
+emission.default_value = (0.8, 0.0, 1.0, 1.0)
+emission.keyframe_insert(data_path="default_value", frame=370)
+
+print("Color animation created!")
+
+
+# landing
+landing_positions = [-4, -2, 0, 2, 4]
+
+for i, name in enumerate(drone_names):
+    drone = bpy.data.objects[name]
+
+    # return above landing position
+    bpy.context.scene.frame_set(410)
+    drone.location = (landing_positions[i], 0, 5)
+    drone.keyframe_insert(data_path="location", frame=410)
+
+    # landing
+    bpy.context.scene.frame_set(470)
+    drone.location = (landing_positions[i], 0, 0)
+    drone.keyframe_insert(data_path="location", frame=470)
+
+print("Landing created!")
